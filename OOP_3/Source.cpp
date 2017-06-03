@@ -4,6 +4,31 @@
 #include <vector>
 using namespace std;
 
+template <class C, typename T, class It>
+void Sort(C& c)
+{
+	It i1 = It(c);//c.createIterator();
+	for (int i = 0; i < c.Size() - 1; i++)
+	{
+		T& begin = i1.next();
+		It i2 = It(c);
+		int c = 0;
+		while (c != i)
+		{
+			i2.next();
+			c++;
+		}
+		while (i2.hasNext())
+		{
+			T& temp = i2.next();
+			if (begin > temp)
+			{
+				swap(begin, temp);
+			}
+		}
+	}
+};
+
 
 template<class T>
 class JavaIterator {
@@ -57,32 +82,6 @@ public:
 	//friend class JavaIterator<T>;
 	virtual JavaIterator<T&> *createIterator() = 0;
 	virtual JavaIterator<const T&> *createIteratorC() const = 0;
-	virtual void Sort()
-	{
-		JavaIterator<T&>* i1 = this->createIterator();
-		for (int i = 0; i < Size() - 1; i++)
-		{
-			T& begin = i1->next();
-			//T& min = begin;
-			JavaIterator<T&>* i2 = this->createIterator();
-			int c = 0;
-			while (c != i)
-			{
-				i2->next();
-			    c++;
-			}
-			while (i2->hasNext())
-			{
-				T& temp = i2->next();
-				if (begin > temp)
-				{
-					swap(begin, temp);
-				}
-			}
-			delete i2;
-		}
-		delete i1;
-	};
 	virtual ~ContainerInterface() {};
 	friend ostream& operator<<(ostream &os, ContainerInterface<T> const & c)
 	{
@@ -1185,7 +1184,7 @@ int main(int argc, char *argv[])
 	s.push("ahello");
 	s.push("background");
 	s.push("cskfkshfskfhsfk");
-	s.Sort();
+	//Sort<Stack<string>,string,SI<string>>(s);
 	st.push(15.15);
 	st.push(15.7);
 	st.push(15.3);
@@ -1194,7 +1193,7 @@ int main(int argc, char *argv[])
 	cout << s << endl;
 	Stack<double> a = (st);
 	cout << (a==st) <<endl;
-	a.Sort();
+	//Sort<Stack<double>, double, SI<double>>(a);
 	cout << a << endl;
 	StaticDeque<double> sa(10, 1.5);
 	sa.pushFront(1.7);
